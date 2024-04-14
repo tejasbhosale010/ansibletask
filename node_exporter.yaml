@@ -1,0 +1,10 @@
+- name: confgiure node and process exporter
+  hosts: nodes
+
+  tasks:
+    - name: Configure node_exporter role
+      become: yes
+      become_method: sudo
+      become_user: root
+      import_role:
+        name: node_exporter

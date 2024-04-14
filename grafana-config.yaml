@@ -1,0 +1,10 @@
+- name: confgiure grafana
+  hosts: grafana
+
+  tasks:
+    - name: Configure grafna role
+      become: yes
+      become_method: sudo
+      become_user: root
+      import_role:
+        name: grafana

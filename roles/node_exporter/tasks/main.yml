@@ -1,0 +1,44 @@
+---
+# tasks file for node_exporter
+- name: install node exporter
+  package:
+    name: "prometheus-node-exporter"
+    state: present
+- name: start prometheus node-exporter
+  service:
+    name: prometheus-node-exporter
+    enabled: yes
+    state: started
+- name: install nginx
+  package:
+    name: "nginx"
+    state: present
+- name: start nginx
+  service:
+    name: nginx
+    enabled: yes
+    state: started
+- name: install nginx node exporter
+  package:
+    name: "prometheus-nginx-exporter"
+    state: present
+- name: start nginx process exporter
+  service:
+    name: prometheus-nginx-exporter
+    enabled: yes
+    state: started
+- name: start prometheus process exporter
+  service:
+    name: prometheus-process-exporter
+    enabled: yes
+    state: started
+- name: Remove default nginx configuration
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+- name: copy stub status
+  copy:
+    src: files/stub_status.conf
+    dest: /etc/nginx/conf.d/stub_status.conf
+  notify:
+    - restart nginx.service
